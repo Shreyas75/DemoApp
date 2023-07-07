@@ -10,7 +10,10 @@ const {sendTokenResponse} = require("../controllers/auth");
 exports.getProducts = async (req, res, next) => {
     req.body.user = req.user.id
     
-    const product = await Product.find();
+    const product = await Product.aggregate([
+      { $match: {} }, // Match all documents
+      { $project: { _id: 0, name: 1, description: 1, price: 1, category: 1 } } // Include only specific fields
+    ]);
   
     res.status(200).json({
       success: true,
