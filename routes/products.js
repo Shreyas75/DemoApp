@@ -11,11 +11,12 @@ const Product = require("../models/Product");
 
 const router = express.Router();
 const { protect, authorize } = require("../middleware/auth");
+const { refreshToken } = require("../middleware/refreshToken");
 
 
 
 
-router.get("/", protect, authorize("publisher", "admin"),getProducts)
+router.get("/", refreshToken, authorize("publisher", "admin"),getProducts)
 router.post("/", protect, authorize("publisher", "admin"),createProduct)
 router.get("/:id", getProduct)
 router.delete("/:id",protect, authorize("publisher", "admin"), deleteProduct)
